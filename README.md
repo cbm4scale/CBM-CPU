@@ -30,14 +30,15 @@ The project provides researchers and practitioners with flexibility in their imp
    pip install ogb
    conda install cmake ninja wget prettytable scipy
     ```
-4. **Clone and Install the Repository**  
+
+3. **Clone and Install the Repository**  
    Clone the repository and set up the project:
    ```bash
    git clone https://github.com/cbm4scale/CBM-CPU.git --recursive
    cd CBM-CPU/
    git submodule init
    git submodule update
-   python conda_setup.py  # If Intel oneAPI is not installed in the default directory, use: --setvars_path PATH_TO_ONEAPI/setvars.sh
+   python setup.py  # If Intel oneAPI is not installed in the default directory, use: --setvars_path PATH_TO_ONEAPI/setvars.sh
    export LD_LIBRARY_PATH=./arbok/build/:$LD_LIBRARY_PATH
    export PYTHONPATH=./:$PYTHONPATH
    ```

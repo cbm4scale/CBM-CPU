@@ -4,6 +4,8 @@ from torch import inference_mode, ones, tensor
 from torch.nn import Module, ModuleList
 from utilities import set_layer, load_dataset, print_dataset_info, set_adjacency_matrix
 
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 
 class NodePrediction(Module):
     def __init__(self, layer: str, in_features: int, hidden_features: int, out_features: int, num_hidden_layers: int, bias: bool, a, a_t=None):

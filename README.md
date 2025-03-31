@@ -14,8 +14,6 @@ The project provides researchers and practitioners with flexibility in their imp
 
 ## Setup
 
-### Installation with Conda
-
 1. **Install Intel oneAPI Base Toolkit**  
    Download and install the Intel oneAPI Base Toolkit following the instructions provided [here](https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2024-2/overview.html).
 
@@ -44,7 +42,7 @@ The project provides researchers and practitioners with flexibility in their imp
    export PYTHONPATH=./:$PYTHONPATH
    ```
 
-## Reproducing the Experiments from the Paper
+## Usage
 
 ### `./scripts/alpha_searcher.sh`
 This script calculates the execution time of the matrix multiplication method defined in `cbm/cbm4mm.py` via `benchmark/benchmark_matmul.py` for each combination of alpha values specified in the `ALPHAS=[...]` array and datasets in the `DATASETS=[...]` array. 
@@ -210,9 +208,3 @@ Other configuration options (use default values to reproduce our experiments):
 
    - `ATOL=...`  
         Specifies the absolute tolerance interval to be considered in the validation.
-
-## Aditional Artifacts  
-
-If you would like to use the CBM format in your own pytorch projects, the classes mentioned before might be a bit restrictive since matrix **D** is always a diagonal degree matrix of **A**.
-Instead, consider using the class defined in `cbm/cbm.py` which accepts two optional and precalculated diagonal matrices (`d_left` and `d_right`) as input. The script 
-`benchmark/validate_generic.py` exemplifies the usage of `cbm/cbm.py`.

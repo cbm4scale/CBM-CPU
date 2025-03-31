@@ -7,7 +7,7 @@ THREADS=(1 16) # <--- Include number of threads to execute PYTHON_FILE
 PYTHON_FILE="benchmark/benchmark_inference.py"
 
 # Define lists of values for each variable
-NN_MODELS=("cbm-gcn-inference" "mkl-gcn-inference")
+NN_MODELS=("cbm-gcn-inference" "mkl-gcn-inference" "cbm-gin-inference" "mkl-gin-inference" "cbm-sage-inference" "mkl-sage-inference")
 HIDDEN_FEATURES=(500)
 NUM_HIDDEN_LAYERS=(1)
 EPOCHS=(250)

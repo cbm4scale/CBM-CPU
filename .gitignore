@@ -3,3 +3,4 @@ logs/
 *.so
 build/
 *.ipynb
+results/

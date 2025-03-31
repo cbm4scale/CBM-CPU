@@ -20,8 +20,8 @@ class cbm4sage(cbm4mm):
         delta_edge_index = torch.stack([cbm_data[0], cbm_data[1]])
         delta_values = cbm_data[2]
         self.mca_branches = cbm_data[3]
-        self.mca_row_idx = cbm_data[4]
-        self.mca_col_idx = cbm_data[5] 
+        self.mca_src_idx = cbm_data[4]
+        self.mca_dst_idx = cbm_data[5] 
 
         # convert matrix of deltas to COO tensor (torch.float32)
         coo_tensor = torch.sparse_coo_tensor(delta_edge_index, 
@@ -72,8 +72,8 @@ class cbm4sage(cbm4mm):
         delta_edge_index_t = torch.stack([cbm_data_t[0], cbm_data_t[1]])
         delta_values_t = cbm_data_t[2]
         self.mca_branches_t = cbm_data_t[3]
-        self.mca_row_idx_t = cbm_data_t[4]
-        self.mca_col_idx_t = cbm_data_t[5] 
+        self.mca_src_idx_t = cbm_data_t[4]
+        self.mca_dst_idx_t = cbm_data_t[5] 
 
         # convert matrix of deltas to COO tensor (torch.float32)
         coo_tensor_t = torch.sparse_coo_tensor(delta_edge_index_t, 
@@ -107,7 +107,7 @@ class cbm4sage(cbm4mm):
         Computes the product between the matrix of delta (self.deltas) and a 
         dense real-valued matrix. The result of this product is stored in 
         another dense real-valued matrix y. Matrix y is subsequently updated
-        according to the compression tree (self.mca_row_ptr /  self.mca_col_idx) 
+        according to the compression tree (self.mca_src_idx /  self.mca_dst_idx) 
         that was obtained during the construction of the CBM format, and the 
         scaling factors (self.D) required for normalization. 
         
@@ -126,8 +126,8 @@ class cbm4sage(cbm4mm):
             self.deltas.values().to(torch.float32),
             x,
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32),
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32),
             self.D.to(torch.float32), 
             y)
 
@@ -138,7 +138,7 @@ class cbm4sage(cbm4mm):
         Computes the product between the matrix of tranposed deltas (self.deltas_t) and a 
         dense real-valued matrix. The result of this product is stored in 
         another dense real-valued matrix y. Matrix y is subsequently updated
-        according to the compression tree (self.mca_row_ptr /  self.mca_col_idx) 
+        according to the compression tree (self.mca_src_idx /  self.mca_dst_idx) 
         that was obtained during the construction of the CBM format, and the 
         scaling factors (self.D) required for normalization. 
         
@@ -157,8 +157,8 @@ class cbm4sage(cbm4mm):
             self.deltas_t.values().to(torch.float32),
             x,
             self.mca_branches_t.to(torch.int32), 
-            self.mca_row_idx_t.to(torch.int32), 
-            self.mca_col_idx_t.to(torch.int32),
+            self.mca_src_idx_t.to(torch.int32), 
+            self.mca_dst_idx_t.to(torch.int32),
             y)
 
     def update(self, y):
@@ -166,7 +166,7 @@ class cbm4sage(cbm4mm):
         Helper / Debugging / Benchmarking method:
 
         Computes the update stage of CBM format, according to the compression 
-        tree (self.mca_row_ptr / self.mca_col_idx) that was obtained during the 
+        tree (self.mca_src_idx / self.mca_dst_idx) that was obtained during the 
         construction of the format.
 
         Note: -Use OpenMP environment variables to control parallelism.
@@ -177,6 +177,6 @@ class cbm4sage(cbm4mm):
         
         cbm_cpp.s_fused_update_csr_int32(
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32),
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32),
             self.D, y)

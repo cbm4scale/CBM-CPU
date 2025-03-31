@@ -48,7 +48,7 @@ class cbm4gcn(cbm4mm):
         Computes the product between the matrix of delta (self.deltas) and a 
         dense real-valued matrix. The result of this product is stored in 
         another dense real-valued matrix y. Matrix y is subsequently updated
-        according to the compression tree (self.mca_row_ptr /  self.mca_col_idx) 
+        according to the compression tree (self.mca_src_idx /  self.mca_dst_idx) 
         that was obtained during the construction of the CBM format, and the 
         scaling factors (self.D) required due to normalization. 
         
@@ -67,8 +67,8 @@ class cbm4gcn(cbm4mm):
             self.deltas.values().to(torch.float32),
             x,
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32),
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32),
             self.D.to(torch.float32), 
             y)
 
@@ -78,7 +78,7 @@ class cbm4gcn(cbm4mm):
         Helper / Debugging / Benchmarking method:
 
         Computes the update stage of CBM format, according to the compression 
-        tree (self.mca_row_ptr / self.mca_col_idx) that was obtained during the 
+        tree (self.mca_src_idx / self.mca_dst_idx) that was obtained during the 
         construction of the format.
 
         Note: -Use OpenMP environment variables to control parallelism.
@@ -89,6 +89,6 @@ class cbm4gcn(cbm4mm):
         
         cbm_cpp.s_fused_update_csr_int32(
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32),
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32),
             self.D, y)

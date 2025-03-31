@@ -40,8 +40,8 @@ if __name__ == '__main__':
     if args.alpha is not None:
         alpha = args.alpha
 
-    a_cbm = set_adjacency_matrix('cbm-ax', dataset.edge_index, alpha=alpha)
-    a_mkl = set_adjacency_matrix('mkl-ax', dataset.edge_index)
+    a_cbm, _ = set_adjacency_matrix('cbm-ax', dataset.edge_index, alpha=alpha)
+    a_mkl, _ = set_adjacency_matrix('mkl-ax', dataset.edge_index, alpha=None)
 
     # Calculate total number of elements in CSR representation
     csr_size = (

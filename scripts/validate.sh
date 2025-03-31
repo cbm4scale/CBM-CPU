@@ -8,26 +8,29 @@ PYTHON_FILE="benchmark/validate.py"
 
 # Define lists of values for each variable
 OPS=("ax" "adx" "dadx")
-NCOLUMNS=(500)
-ITERATIONS=(50)
+NCOLUMNS=(50)
+ITERATIONS=(2)
 RTOL=1e-5
 ATOL=0
 # Define ALPHAS implicitly by dataset (only datasets that appear here are used)
 declare -A ALPHA_MAP
 ALPHA_MAP["ca-HepPh"]=""  # Space-separated values instead of an array
-ALPHA_MAP["ca-AstroPh"]=""  # Empty string means revert to default (no --alpha)
-ALPHA_MAP["Cora"]=""  # Space-separated values instead of an array
-ALPHA_MAP["PubMed"]=""  # Empty string means revert to default (no --alpha)
-ALPHA_MAP["COLLAB"]=""  # Space-separated values instead of an array
-ALPHA_MAP["coPapersCiteseer"]=""  # Empty string means revert to default (no --alpha)
-ALPHA_MAP["coPapersDBLP"]=""  # Space-separated values instead of an array
-ALPHA_MAP["ogbn-proteins-raw"]=""  # Empty string means revert to default (no --alpha)
+# ALPHA_MAP["ca-AstroPh"]=""  # Empty string means revert to default (no --alpha)
+# ALPHA_MAP["Cora"]=""  # Space-separated values instead of an array
+# ALPHA_MAP["PubMed"]=""  # Empty string means revert to default (no --alpha)
+# ALPHA_MAP["COLLAB"]=""  # Space-separated values instead of an array
+# ALPHA_MAP["coPapersCiteseer"]=""  # Empty string means revert to default (no --alpha)
+# ALPHA_MAP["coPapersDBLP"]=""  # Space-separated values instead of an array
+# ALPHA_MAP["ogbn-proteins-raw"]=""  # Empty string means revert to default (no --alpha)
 
 # Extract dataset names automatically
 DATASETS=(${!ALPHA_MAP[@]})
 
 # Temporary file to store results
-RESULTS_FILE="validate_results.txt"
+mkdir -p results
+
+# Temporary file to store results
+RESULTS_FILE="results/validate_results.txt"
 > $RESULTS_FILE
 > val_temp_results.txt
 

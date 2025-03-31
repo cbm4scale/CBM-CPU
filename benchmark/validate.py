@@ -56,8 +56,8 @@ if __name__ == '__main__':
         alpha = args.alpha
     
     # Represent adjacency matrices in CBM and CSR formats.
-    cbm_a = set_adjacency_matrix(f"cbm-{args.operation}", dataset.edge_index, alpha=alpha)
-    mkl_a = set_adjacency_matrix(f"mkl-{args.operation}", dataset.edge_index)
+    cbm_a, _ = set_adjacency_matrix(f"cbm-{args.operation}", dataset.edge_index, alpha=alpha)
+    mkl_a, _ = set_adjacency_matrix(f"mkl-{args.operation}", dataset.edge_index, alpha=None)
     pyg_a = mkl_a.a.clone()
 
     cbm_y = empty((dataset.num_nodes, args.columns))

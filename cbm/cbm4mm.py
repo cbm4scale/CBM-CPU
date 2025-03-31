@@ -22,8 +22,8 @@ class cbm4mm:
         delta_edge_index = torch.stack([cbm_data[0], cbm_data[1]])
         delta_values = cbm_data[2]
         self.mca_branches = cbm_data[3]
-        self.mca_row_idx = cbm_data[4]
-        self.mca_col_idx = cbm_data[5] 
+        self.mca_src_idx = cbm_data[4]
+        self.mca_dst_idx = cbm_data[5] 
 
         # convert matrix of deltas to COO tensor (torch.float32)
         coo_tensor = torch.sparse_coo_tensor(delta_edge_index, 
@@ -43,7 +43,7 @@ class cbm4mm:
         Computes the product between the matrix of delta (self.deltas) and a 
         dense real-valued matrix. The result of this product is stored in 
         another dense real-valued matrix y. Matrix y is subsequently updated
-        according to the compression tree (self.mca_row_ptr and self.mca_col_idx) that 
+        according to the compression tree (self.mca_row_ptr and self.mca_dst_idx) that 
         was obtained during the construction of the CBM format.
         
         Note: -This method wraps C++ code and resorts to Intel MKL sparse BLAS.
@@ -62,8 +62,8 @@ class cbm4mm:
             self.deltas.values().to(torch.float32), 
             x, 
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32), 
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32), 
             y)
         
     def update(self, y):
@@ -71,7 +71,7 @@ class cbm4mm:
         Helper / Debugging / Benchmarking method:
 
         Computes the update stage of CBM format, according to the compression 
-        tree (self.mca_row_ptr and self.mca_col_idx) that was obtained during the 
+        tree (self.mca_row_ptr and self.mca_dst_idx) that was obtained during the 
         construction of the format.
 
         Note: -Use OpenMP environment variables to control parallelism.
@@ -82,8 +82,8 @@ class cbm4mm:
         
         cbm_cpp.s_update_csr_int32(
             self.mca_branches.to(torch.int32), 
-            self.mca_row_idx.to(torch.int32), 
-            self.mca_col_idx.to(torch.int32), 
+            self.mca_src_idx.to(torch.int32), 
+            self.mca_dst_idx.to(torch.int32), 
             y)
             
 
@@ -137,7 +137,7 @@ class cbm4mm:
                 u_top = self.mca_row_ptr[u + 1]
                 visited.add(u)
 
-                for v in self.mca_col_idx[u_bot : u_top]:
+                for v in self.mca_dst_idx[u_bot : u_top]:
                     queue.append(v)
                     v_bot = d_row_ptr[v]
                     v_top = d_row_ptr[v + 1]

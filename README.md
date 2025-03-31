@@ -1,6 +1,6 @@
-# CBM4Scale
+# CBM-CPU
 
-CBM4Scale is a high-performance implementation of Graph Neural Networks (GNNs) using the Compressed Binary Matrix (CBM) format, optimized for Intel CPUs. This project provides efficient implementations of popular GNN architectures including Graph Convolutional Networks (GCN), GraphSAGE, and Graph Isomorphism Networks (GIN) using both parallel and sequential processing.
+CBM-CPU is a high-performance implementation of Graph Neural Networks (GNNs) using the Compressed Binary Matrix (CBM) format, optimized for Intel CPUs. This project provides efficient implementations of popular GNN architectures including Graph Convolutional Networks (GCN), GraphSAGE, and Graph Isomorphism Networks (GIN) using both parallel and sequential processing.
 
 Key features:
 - Custom CBM format implementation optimized for sparse matrix operations
@@ -33,8 +33,8 @@ The project provides researchers and practitioners with flexibility in their imp
 4. **Clone and Install the Repository**  
    Clone the repository and set up the project:
    ```bash
-   git clone https://github.com/cbm4scale/CBM4Scale.git --recursive
-   cd CBM4Scale/
+   git clone https://github.com/cbm4scale/CBM-CPU.git --recursive
+   cd CBM-CPU/
    git submodule init
    git submodule update
    python conda_setup.py  # If Intel oneAPI is not installed in the default directory, use: --setvars_path PATH_TO_ONEAPI/setvars.sh
@@ -60,7 +60,7 @@ Upon completion, the script generates a results file named `results/alpha_search
    - `THREADS=(...)`  
         Include in this array the thread counts you want to experiment with.
       
-2. Run `./scripts/alpha_searcher.sh` inside the `CBM4Scale/` direction.
+2. Run `./scripts/alpha_searcher.sh` inside the `CBM-CPU/` direction.
 
 Other configuration options (use default values to reproduce our experiments):  
    - `DATASETS=(...)`  
@@ -90,7 +90,7 @@ Upon completion, the script generates a results file named `results/compression_
    - `THREADS=(...)`  
      Include in this array the specific thread counts you want to experiment with.  
       
-2. Run `./scripts/compression_metrics.sh` inside the `CBM4Scale/` direction.
+2. Run `./scripts/compression_metrics.sh` inside the `CBM-CPU/` direction.
 
 Other configuration options (use default values to reproduce our experiments):   
    - `DATASETS=(...)`  
@@ -127,7 +127,7 @@ Upon completion, the script generates a results file named `results/matmul_resul
    - `THREADS=(...)`  
      Include in this array the specific thread counts you want to experiment with.  
 
-2. Run `./scripts/matmul.sh` inside the `CBM4Scale/` direction.  
+2. Run `./scripts/matmul.sh` inside the `CBM-CPU/` direction.  
 
 Other configuration options (use default values to reproduce our experiments):    
    - `DATASETS=(...)`  
@@ -159,7 +159,7 @@ Upon completion, the script generates a results file named `results/inference_re
    - `THREADS=(...)`  
      Include in this array the specific thread counts you want to experiment with.  
        
-2. Run `./scripts/inference.sh` inside the `CBM4Scale/` direction.
+2. Run `./scripts/inference.sh` inside the `CBM-CPU/` direction.
 
 Other configuration options (use default values to reproduce our experiments):  
    - `DATASETS=(...)`  
@@ -191,7 +191,7 @@ Again, the alpha values used are the ones set in `benchmark/utilities.py`.
    - `THREADS=(...)`  
      Include in this array the specific thread counts you want to experiment with.  
        
-2. Run `./scripts/valiate.sh` inside the `CBM4Scale/` direction.
+2. Run `./scripts/validate.sh` inside the `CBM-CPU/` direction.
 
 Other configuration options (use default values to reproduce our experiments):  
    - `DATASETS=(...)`  
